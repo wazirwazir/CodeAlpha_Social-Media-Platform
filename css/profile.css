@@ -1,0 +1,43 @@
+/* main */
+main {
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+main .user_profile {
+    text-align: center;
+}
+
+main .user_profile .profile_user_img {
+    border: 2px solid whitesmoke;
+    border-radius: 50%;
+    width: 50%;
+}
+
+main .user_profile .engagements {
+    display: flex;
+    justify-content: center;
+    gap: 8em;
+    padding: .5em;
+}
+
+main .user_profile .engagements button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: rgb(253, 253, 253);
+    background-color: transparent;
+    border: none;
+    border-radius: 9px;
+}
+
+.user_posts_container {
+    border-top: 1px solid grey;
+    padding: 1em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+}

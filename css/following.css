@@ -1,0 +1,48 @@
+/* main */
+main {
+    width: 80%;
+    max-width: 800px;
+}
+main .user_img {
+    width: 13mm;
+    height: 13mm;
+    background-color: rgb(73, 73, 73);
+    border-radius: 50%;
+    border: 2px solid rgb(112, 112, 112);
+}
+
+h2 {
+    color: whitesmoke;
+}
+
+.user {
+    display: flex;
+    gap: 1em;
+    background-color: rgba(59, 59, 59, 0.733);
+    border-radius: 8px;
+    padding: .5em;
+    margin: 0;
+}
+.user button {
+    margin-left: auto;
+    border: none;
+    border-radius: 7px;
+    background-color: transparent;
+}
+
+.head {
+    display: flex;
+    justify-content: space-around;
+}
+.head button {
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+main .activeBtn {
+    background-color: rgb(104, 104, 104);
+    border-radius: 7px;
+}
