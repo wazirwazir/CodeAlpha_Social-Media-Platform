@@ -8,8 +8,10 @@ const postContainer = document.querySelector('.all_posts');
 const postBtn = document.querySelector('.post_btn');
 const profileUserProfile = document.querySelector('.user_profile');
 const followPage = document.querySelector('.head')
+const checkUserPage = document.querySelector('.check_profile')
 let change = false
 let userInfo;
+let checkedUserImgs;
 
 
 //change img sources
@@ -105,6 +107,9 @@ const getUserProfile = () => {
     if(profileUserProfile) {
     renderUserProfile()
     }
+    if(checkUserPage) {
+      getCheckedProfile()
+    }
   }
   )
     
@@ -121,7 +126,7 @@ const checkTruth = (e, truesrc, falsesrc) => {
 
 //get user img for home page
 const getUserImg = (e) => {
-if(postInput || followPage) {
+if(postInput || followPage || checkUserPage) {
   const userImg = document.querySelector('#user_img_home')
   userImg.src = e.avatar
 }}
@@ -176,14 +181,13 @@ const addPost = () => {
 //append new post 
 const appendNewPost = (post) => {
   const container = document.querySelector('.all_posts')
-
   const postDiv = document.createElement('div')
   postDiv.classList.add('post_container')
   postDiv.setAttribute('data-post-id', post.post_id)
       postDiv.innerHTML =  `
           
           <div class="img_and_name_container">
-            <img class="user_img" src="${post.image}" alt="user img">
+          <a href="profile.html"><img class="user_img" src="${post.image}" alt="user img"></a>
             <p>${post.name}</p>
             <button id="follow" class="followBtn change hide"><img class="followImg" src="${checkTruth(post.followed, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>
           </div>
@@ -373,9 +377,11 @@ function likePost(e) {
       if (data.message == 'liked') {
         console.log('it is liked')
         likeCount.innerHTML = Number(likeCount.innerHTML) + 1
+        likeCount.previousElementSibling.src = 'assets/heart-svgrepo-com (2).svg'
       } else {
         console.log('it is unliked')
         likeCount.innerHTML = Number(likeCount.innerHTML) - 1
+        likeCount.previousElementSibling.src = 'assets/heart-svgrepo-com.svg'
       }
     })
     .catch(err => console.error(err))
@@ -391,6 +397,7 @@ const removeUserFollow = () => {
   userPost.forEach(post => {
     const followBtn = post.querySelector('.followBtn')
     followBtn.classList.add('hide')
+    followBtn.parentElement.parentElement.querySelector('a').href = 'profile.html'
   })
 }
 
@@ -439,7 +446,7 @@ const renderPosts = (posts) => {
           <div class="post_container" data-post-id="${post.post_id}" data-poster-id="${post.user_id}">
           
           <div class="img_and_name_container">
-            <img class="user_img" src="${post.image}" alt="user img">
+            <a class="posts_a" href="checkProfile.html"><img class="user_img" src="${post.image}" alt="user img"></a>
             <p>${post.name}</p>
             <button id="follow" class="followBtn change"><img class="followImg" src="${checkTruth(post.followed, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>
           </div>
@@ -475,6 +482,7 @@ const renderPosts = (posts) => {
     getCommentBtn()
     postBtn.onclick = addPost
     removeUserFollow()
+    setCheckedId() 
   }}
 
 //get all posts from db
@@ -534,17 +542,23 @@ const renderUserProfile = () => {
 
 const renderUserPosts = (posts) => {
   const container = document.querySelector('.user_posts_container')
-
   container.innerHTML = posts.map(post => {
-      
+const checkPageForButton = () => {
+    if(checkUserPage) {
+      return `<button id="follow" class="followBtn change"><img class="followImg" src="${checkTruth(post.followed, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>`
+    } else {
+      return `<button id="delete" title="Delete post"><img class="followImg" src="assets/delete-svgrepo-com.svg" alt="delete"></button>`
+    }
+    }  
+
         return `
           <div class="post_container" data-post-id="${post.post_id}" data-poster-id="${post.user_id}">
           
           <div class="img_and_name_container">
             <img class="user_img" src="${post.image}" alt="user img">
             <p>${post.name}</p>
-            <button id="delete" title="Delete post"><img class="followImg" src="assets/delete-svgrepo-com.svg" alt="delete"></button>
-          </div>
+          ${checkPageForButton()}
+            </div>
 
           <div class="post_text_and_img">
             <p class="content">${post.content}</p>
@@ -615,7 +629,7 @@ const getFollowPeople = () => {
     followingContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
-          <img class="user_img" src="${user.avatar}" alt="user_img">
+          <a class="posts_a" href="checkProfile.html"><img class="user_img" src="${user.avatar}" alt="user_img"></a>
           <p>${user.name}</p>
           <button id="followw" class="followBtn change"><img class="followImg" src="${checkTruth(user.followed, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>
         </div>
@@ -630,7 +644,7 @@ const getFollowPeople = () => {
     toFollowContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
-          <img class="user_img" src="${user.avatar}" alt="user_img">
+          <a class="posts_a" href="checkProfile.html"><img class="user_img" src="${user.avatar}" alt="user_img"></a>
           <p>${user.name}</p>
           <button id="followw" class="followBtn change"><img class="followImg" src="${checkTruth(user.following, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>
         </div>
@@ -645,7 +659,7 @@ const getFollowPeople = () => {
     followersContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
-          <img class="user_img" src="${user.avatar}" alt="user_img">
+          <a class="posts_a" href="checkProfile.html"><img class="user_img" src="${user.avatar}" alt="user_img"></a>
           <p>${user.name}</p>
           <button id="followw" class="followBtn change"><img class="followImg" src="${checkTruth(user.following, 'assets/user-round-check.svg', 'assets/user-round-plus.svg')}" alt="follow"></button>
         </div>
@@ -681,25 +695,91 @@ const getFollowPeople = () => {
       
     })
     .catch(err => console.error(err))
+    
     })
   })
+  setCheckedId()
   })
   })
 
-
-
-  
-  
-  
-
-
-  
-}
-
-}
+}}
 
 if(followPage) {
   getFollowPeople()
+}
+
+//check user page
+let checkedInfo;
+const renderCheckedProfile = () => {
+  const userImg = document.querySelector('.profile_user_img')
+  const userFollowing = document.querySelector('#following_count')
+  const userFollowers = document.querySelector('#followers_count')
+  const name = document.querySelector('#name')
+  userImg.src = checkedInfo.avatar
+
+
+  name.innerHTML = checkedInfo.name
+  const id = localStorage.getItem('checkedId')
+  console.log(id)
+  fetch(`http://localhost:3000/followStats/${id}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data) 
+    userFollowing.innerHTML = data.following 
+    userFollowers.innerHTML = data.followers  
+  })
+  
+  fetch(`http://localhost:3000/userposts/${id}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data) 
+    renderUserPosts(data)
+    postsControl()
+    getCommentBtn()
+  })
+
+
+}
+
+const getCheckedProfile = () => {
+  const userId = localStorage.getItem('checkedId')
+  fetch(`http://localhost:3000/profile/${userId}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    checkedInfo = data
+    if(profileUserProfile) {
+      renderCheckedProfile()
+    }
+  }
+  )
+    console.log('was there')
+}
+
+const setCheckedId = () => {
+  checkedUserImgs = document.querySelectorAll('.posts_a')
+if(followPage || postInput) {
+  checkedUserImgs.forEach(a => {
+    a.addEventListener('click', () => {
+      saveId(a)
+    })
+  }) 
+}
+}
+const saveId = (e) => {
+  let id;
+  if(postInput) {
+    id = e.parentElement.parentElement.dataset.posterId;
+  } else if(followPage) {
+    id = e.parentElement.dataset.posterId;
+  } 
+  const userId = localStorage.getItem('userId')
+  
+  console.log(id)
+  if(id !== userId) {
+    localStorage.setItem('checkedId', id)
+  }
+  
 }
 
 postsControl()

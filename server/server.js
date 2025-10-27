@@ -142,7 +142,6 @@ app.post('/register', (req, res) => {
 
 app.post('/newpost', (req, res) => {
     const { user_id, content } =  req.body
-    console.log(user_id, content)
     pg('posts')
     .insert({ 
         user_id: user_id,
@@ -315,7 +314,6 @@ app.get('/userposts/:id', (req, res) => {
         .where('posts.user_id', id)
         .then(data => {
             res.json(data)
-            console.log(data)
         })
         .catch(err => res.status(400).json(err, 'unable to get user posts'))
 })
@@ -376,6 +374,7 @@ app.get('/notfollowing/:id', (req, res) => {
     .catch(err => res.status(400).json('not getting anything'))
 
 })
+
 
 
 

@@ -204,7 +204,6 @@ main {
     color: rgb(41, 41, 41);
     background-color: whitesmoke;
 }
-
 .comments .comment {
     display: flex;
     flex-direction: column;
