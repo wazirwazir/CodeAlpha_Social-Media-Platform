@@ -95,7 +95,7 @@ const getUserProfile = () => {
   if (!userId) {
     window.location.href = 'index.html'
   }
-  fetch(`http://localhost:3000/profile/${userId}`)
+  fetch(`https://muse-api-i8lp.onrender.com/profile/${userId}`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
@@ -159,7 +159,7 @@ const addPost = () => {
   const user_id = localStorage.getItem('userId')
   console.log(user_id)
   if(content.value.length > 0) {
-  fetch('http://localhost:3000/newpost', {
+  fetch('https://muse-api-i8lp.onrender.com/newpost', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -275,7 +275,7 @@ const addComment = (e) => {
     const user_id = localStorage.getItem('userId')
   console.log(commentCount)
   if(content.value.length > 0) {
-  fetch('http://localhost:3000/comment', {
+  fetch('https://muse-api-i8lp.onrender.com/comment', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -319,7 +319,7 @@ const appendNewComment = (comment) => {
 //get comments
 const getComments = (e) => {
   let id = e.parentElement.parentElement.dataset.postId
-  fetch(`http://localhost:3000/getcomments/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/getcomments/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data, 'helooooo')
@@ -363,7 +363,7 @@ function likePost(e) {
   console.log(post_id, user_id)
   console.log(likeCount)
 
-  fetch('http://localhost:3000/like', {
+  fetch('https://muse-api-i8lp.onrender.com/like', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -410,7 +410,7 @@ const followUser = (e) => {
   
   console.log(poster_id, user_id)
 
-  fetch('http://localhost:3000/follow', {
+  fetch('https://muse-api-i8lp.onrender.com/follow', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -489,7 +489,7 @@ const renderPosts = (posts) => {
 const getPosts = () => {
   const userIdd = localStorage.getItem('userId')
   console.log(userIdd)
-  fetch('http://localhost:3000/posts', {
+  fetch('https://muse-api-i8lp.onrender.com/posts', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -520,7 +520,7 @@ const renderUserProfile = () => {
   name.innerHTML = userInfo.name
   const id = localStorage.getItem('userId')
   console.log(id)
-  fetch(`http://localhost:3000/followStats/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/followStats/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data) 
@@ -528,7 +528,7 @@ const renderUserProfile = () => {
     userFollowers.innerHTML = data.followers  
   })
   
-  fetch(`http://localhost:3000/userposts/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/userposts/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data) 
@@ -594,7 +594,7 @@ const checkPageForButton = () => {
       btn.addEventListener('click', () => {
           console.log(deleteBtn)
           let post_id = btn.parentElement.parentElement.dataset.postId
-          fetch('http://localhost:3000/delete', {
+          fetch('https://muse-api-i8lp.onrender.com/delete', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -622,7 +622,7 @@ const getFollowPeople = () => {
   
   if(followPage) {
   const id = localStorage.getItem('userId')
-  fetch(`http://localhost:3000/following/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/following/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data) 
@@ -637,7 +637,7 @@ const getFollowPeople = () => {
     })
   })
 
-    fetch(`http://localhost:3000/notfollowing/${id}`)
+    fetch(`https://muse-api-i8lp.onrender.com/notfollowing/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
@@ -652,7 +652,7 @@ const getFollowPeople = () => {
     })
   })
   .then(() => {
-        fetch(`http://localhost:3000/followers/${id}`)
+        fetch(`https://muse-api-i8lp.onrender.com/followers/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
@@ -674,7 +674,7 @@ const getFollowPeople = () => {
       console.log(btn.parentElement.dataset.posterId)
       let poster_id = btn.parentElement.dataset.posterId
 
-      fetch('http://localhost:3000/follow', {
+      fetch('https://muse-api-i8lp.onrender.com/follow', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -721,7 +721,7 @@ const renderCheckedProfile = () => {
   name.innerHTML = checkedInfo.name
   const id = localStorage.getItem('checkedId')
   console.log(id)
-  fetch(`http://localhost:3000/followStats/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/followStats/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data) 
@@ -729,7 +729,7 @@ const renderCheckedProfile = () => {
     userFollowers.innerHTML = data.followers  
   })
   
-  fetch(`http://localhost:3000/userposts/${id}`)
+  fetch(`https://muse-api-i8lp.onrender.com/userposts/${id}`)
   .then(response => response.json())
   .then(data => {
     console.log(data) 
@@ -743,7 +743,7 @@ const renderCheckedProfile = () => {
 
 const getCheckedProfile = () => {
   const userId = localStorage.getItem('checkedId')
-  fetch(`http://localhost:3000/profile/${userId}`)
+  fetch(`https://muse-api-i8lp.onrender.com/profile/${userId}`)
   .then(response => response.json())
   .then(data => {
     console.log(data)
