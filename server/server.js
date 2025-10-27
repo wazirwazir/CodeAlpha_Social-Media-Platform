@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const bcrypt = require('bcrypt-node')
 const knex = require('knex')
-
+const port = process.env.PORT || 3075;
 
 
 const app = express()
@@ -12,13 +12,10 @@ app.use(express.json())
 const pg = knex({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        port: 5432,
-        user: 'postgres',
-        password: 'okikiola357',
-        database: 'muse_db'
-    }
-})
+    connectionString: process.env.DATABASE_URL,
+    ssl:{ rejectUnauthorized: false}
+}
+});
 
 
 
@@ -378,4 +375,4 @@ app.get('/notfollowing/:id', (req, res) => {
 
 
 
-app.listen(3000, console.log('running on port 3000'))
+app.listen(port, console.log('running on port 3000'))

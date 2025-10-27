@@ -8,7 +8,7 @@ const load = document.querySelector('#load')
 
 const register = () => {
     load.style.display = 'block'
-    fetch('http://localhost:3000/register', {
+    fetch('https://muse-api-i8lp.onrender.com/register', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
