@@ -47,7 +47,6 @@ likeBtn.forEach(btn => {
   let img = btn.children[0]
   btn.addEventListener('click', () => {
     changeState(img, 'assets/heart-svgrepo-com.svg', 'assets/heart-svgrepo-com (2).svg')
-    console.log('post control')
     likePost(btn)
   })
 })
@@ -56,7 +55,6 @@ commentBtn.forEach(btn => {
   let container = btn.parentElement.parentElement.querySelector('.comments')
   btn.addEventListener('click', () => {
       hideDisplay(container)
-      console.log('beep')
       getComments(btn)
     })
 })
@@ -98,7 +96,6 @@ const getUserProfile = () => {
   fetch(`https://muse-api-i8lp.onrender.com/profile/${userId}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     userInfo = data
     getUserImg(data)
     if(postContainer){
@@ -157,7 +154,6 @@ const timeAgo = (timestamp) => {
 const addPost = () => {
   let content = document.querySelector('.post_input')
   const user_id = localStorage.getItem('userId')
-  console.log(user_id)
   if(content.value.length > 0) {
   fetch('https://muse-api-i8lp.onrender.com/newpost', {
         method: 'POST',
@@ -169,7 +165,6 @@ const addPost = () => {
     })
     .then(response => response.json())
     .then(data => { 
-      console.log(data)
       appendNewPost(data)
     })
     .catch(err => console.error(err))
@@ -241,16 +236,13 @@ const appendNewPost = (post) => {
         let followContainer = commentBtn.parentElement.parentElement.querySelector('.comments')
         commentBtn.addEventListener('click', () => {
         hideDisplay(followContainer)
-        console.log('beep')
         getComments(commentBtn)
-        //addComment(commentBtn)
         })
 
 
         //add new comment
         const addCommentBtn = document.querySelector('.add_comment_btn')
         addCommentBtn.addEventListener('click', () => {
-        console.log('new one')
         addComment(addCommentBtn)
         })
 }
@@ -261,7 +253,6 @@ const getCommentBtn = () => {
   const commentBtn = document.querySelectorAll('.add_comment_btn')
   commentBtn.forEach(btn => {
     btn.addEventListener('click', () => {
-      console.log('comment was rendered here')
       addComment(btn)
     })
       
@@ -273,7 +264,7 @@ const addComment = (e) => {
   let commentCount = e.parentElement.parentElement.parentElement.querySelector('#comment_count')
   let post_id = e.parentElement.parentElement.parentElement.dataset.postId
     const user_id = localStorage.getItem('userId')
-  console.log(commentCount)
+  
   if(content.value.length > 0) {
   fetch('https://muse-api-i8lp.onrender.com/comment', {
         method: 'POST',
@@ -286,7 +277,6 @@ const addComment = (e) => {
     })
     .then(response => response.json())
     .then(data => { 
-      console.log(data)
       appendNewComment(data) 
     })
     .catch(err => console.error(err))
@@ -322,7 +312,6 @@ const getComments = (e) => {
   fetch(`https://muse-api-i8lp.onrender.com/getcomments/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data, 'helooooo')
     renderComments(data)
   }
   )
@@ -351,7 +340,7 @@ const renderComments = (comments) => {
       }).join('')
     }
   });
-  console.log('before getcommentbtn')
+  
 }
 
 
@@ -360,9 +349,7 @@ function likePost(e) {
   let post_id = e.parentElement.parentElement.dataset.postId
   const user_id = localStorage.getItem('userId')
   const likeCount = e.parentElement.parentElement.querySelector('#like_count')
-  console.log(post_id, user_id)
-  console.log(likeCount)
-
+  
   fetch('https://muse-api-i8lp.onrender.com/like', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -373,7 +360,6 @@ function likePost(e) {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
       if (data.message == 'liked') {
         console.log('it is liked')
         likeCount.innerHTML = Number(likeCount.innerHTML) + 1
@@ -393,7 +379,6 @@ function likePost(e) {
 const removeUserFollow = () => {
   const userId = localStorage.getItem('userId')
   const userPost = document.querySelectorAll(`.post_container[data-poster-id="${userId}"]`)
-  console.log(userPost)
   userPost.forEach(post => {
     const followBtn = post.querySelector('.followBtn')
     followBtn.classList.add('hide')
@@ -408,8 +393,6 @@ const followUser = (e) => {
   const user_id = localStorage.getItem('userId')
   const followBtn = document.querySelectorAll(`.post_container[data-poster-id="${poster_id}"]`)
   
-  console.log(poster_id, user_id)
-
   fetch('https://muse-api-i8lp.onrender.com/follow', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -420,7 +403,6 @@ const followUser = (e) => {
     })
     .then(response => response.json())
     .then(data => { 
-      console.log(data)
       followBtn.forEach(btn => {
         let fbtn = btn.querySelector('.followBtn')
         let img = fbtn.children[0]
@@ -488,7 +470,6 @@ const renderPosts = (posts) => {
 //get all posts from db
 const getPosts = () => {
   const userIdd = localStorage.getItem('userId')
-  console.log(userIdd)
   fetch('https://muse-api-i8lp.onrender.com/posts', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -498,7 +479,6 @@ const getPosts = () => {
     })
     .then(response => response.json())
     .then(data => { 
-      console.log(data) 
       renderPosts(data)
     })
     .catch(err => console.error(err))
@@ -519,11 +499,9 @@ const renderUserProfile = () => {
 
   name.innerHTML = userInfo.name
   const id = localStorage.getItem('userId')
-  console.log(id)
   fetch(`https://muse-api-i8lp.onrender.com/followStats/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data) 
     userFollowing.innerHTML = data.following 
     userFollowers.innerHTML = data.followers  
   })
@@ -531,7 +509,6 @@ const renderUserProfile = () => {
   fetch(`https://muse-api-i8lp.onrender.com/userposts/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data) 
     renderUserPosts(data)
     postsControl()
     getCommentBtn()
@@ -602,7 +579,7 @@ const checkPageForButton = () => {
           })
           })
           .then(response => response.json())
-          .then(data => {console.log(data)
+          .then(data => {
             btn.parentElement.parentElement.remove()
           })
       })
@@ -625,7 +602,7 @@ const getFollowPeople = () => {
   fetch(`https://muse-api-i8lp.onrender.com/following/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data) 
+    
     followingContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
@@ -640,7 +617,6 @@ const getFollowPeople = () => {
     fetch(`https://muse-api-i8lp.onrender.com/notfollowing/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     toFollowContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
@@ -655,7 +631,6 @@ const getFollowPeople = () => {
         fetch(`https://muse-api-i8lp.onrender.com/followers/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     followersContainer.innerHTML = data.map(user => {
       return `
       <div class="user" data-poster-id="${user.id}">
@@ -671,7 +646,6 @@ const getFollowPeople = () => {
     let followBtn = document.querySelectorAll('#followw')
     followBtn.forEach(btn => {
     btn.addEventListener('click', () => {
-      console.log(btn.parentElement.dataset.posterId)
       let poster_id = btn.parentElement.dataset.posterId
 
       fetch('https://muse-api-i8lp.onrender.com/follow', {
@@ -684,7 +658,6 @@ const getFollowPeople = () => {
     })
     .then(response => response.json())
     .then(data => { 
-      console.log(data)
         let img = btn.children[0]
       if(data == 'followed successfully') {
         img.src = 'assets/user-round-check.svg'
@@ -720,11 +693,9 @@ const renderCheckedProfile = () => {
 
   name.innerHTML = checkedInfo.name
   const id = localStorage.getItem('checkedId')
-  console.log(id)
   fetch(`https://muse-api-i8lp.onrender.com/followStats/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data) 
     userFollowing.innerHTML = data.following 
     userFollowers.innerHTML = data.followers  
   })
@@ -732,7 +703,6 @@ const renderCheckedProfile = () => {
   fetch(`https://muse-api-i8lp.onrender.com/userposts/${id}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data) 
     renderUserPosts(data)
     postsControl()
     getCommentBtn()
@@ -746,15 +716,13 @@ const getCheckedProfile = () => {
   fetch(`https://muse-api-i8lp.onrender.com/profile/${userId}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
     checkedInfo = data
     if(profileUserProfile) {
       renderCheckedProfile()
     }
   }
   )
-    console.log('was there')
-}
+  }
 
 const setCheckedId = () => {
   checkedUserImgs = document.querySelectorAll('.posts_a')
@@ -775,7 +743,6 @@ const saveId = (e) => {
   } 
   const userId = localStorage.getItem('userId')
   
-  console.log(id)
   if(id !== userId) {
     localStorage.setItem('checkedId', id)
   }
