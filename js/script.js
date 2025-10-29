@@ -26,6 +26,12 @@ const changeState = (img, currentsrc, newsrc) => {
   
 }
 
+//login check
+const userId = localStorage.getItem('userId')
+  if (!userId) {
+    window.location.href = 'index.html'
+  }
+
 //hide display
 const hideDisplay = (e) => {
   if (e.classList.contains('hide')) {
