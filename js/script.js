@@ -9,6 +9,7 @@ const postBtn = document.querySelector('.post_btn');
 const profileUserProfile = document.querySelector('.user_profile');
 const followPage = document.querySelector('.head')
 const checkUserPage = document.querySelector('.check_profile')
+const logoutBtn = document.querySelector('#logout')
 let change = false
 let userInfo;
 let checkedUserImgs;
@@ -26,11 +27,12 @@ const changeState = (img, currentsrc, newsrc) => {
   
 }
 
-//login check
-const userId = localStorage.getItem('userId')
-  if (!userId) {
-    window.location.href = 'index.html'
-  }
+
+//handle logout
+const logout = () => {
+    localStorage.removeItem('userId')
+  
+}
 
 //hide display
 const hideDisplay = (e) => {
@@ -109,6 +111,7 @@ const getUserProfile = () => {
     }
     if(profileUserProfile) {
     renderUserProfile()
+    logoutBtn.onclick = logout
     }
     if(checkUserPage) {
       getCheckedProfile()
